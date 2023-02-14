@@ -26,6 +26,7 @@ from FreeTAKServer.controllers.SendDataController import SendDataController
 from FreeTAKServer.controllers.AsciiController import AsciiController
 from FreeTAKServer.controllers.configuration.LoggingConstants import LoggingConstants
 from FreeTAKServer.controllers.configuration.DataPackageServerConstants import DataPackageServerConstants as DPConst
+from FreeTAKServer.controllers.CreateLoggerController import CreateLoggerController
 from FreeTAKServer.model.RawCoT import RawCoT
 from FreeTAKServer.controllers.SpecificCoTControllers.SendDisconnectController import SendDisconnectController
 from FreeTAKServer.controllers.configuration.OrchestratorConstants import OrchestratorConstants
@@ -60,12 +61,7 @@ class Orchestrator:
     def __init__(self):
         self.connection_received = 0
         log_format = logging.Formatter(loggingConstants.LOGFORMAT)
-        self.logger = logging.getLogger(loggingConstants.LOGNAME)
-        self.logger.setLevel(logging.DEBUG)
-        self.logger.addHandler(self.newHandler(loggingConstants.DEBUGLOG, logging.DEBUG, log_format))
-        self.logger.addHandler(self.newHandler(loggingConstants.ERRORLOG, logging.ERROR, log_format))
-        self.logger.addHandler(self.newHandler(loggingConstants.INFOLOG, logging.INFO, log_format))
-        self.logger.addHandler(logging.StreamHandler(sys.stdout))
+        self.logger = CreateLoggerController("FTS_Orchestrator")
         self.sent_message_count = 0
         self.received_message_count = 0
         self.messages_to_core_count = 0

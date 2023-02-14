@@ -1,4 +1,5 @@
 from FreeTAKServer.controllers.configuration.LoggingConstants import LoggingConstants
+from FreeTAKServer.controllers.configuration.MainConfig import MainConfig
 from logging.handlers import RotatingFileHandler
 import logging
 import os
@@ -10,10 +11,19 @@ class CreateLoggerController:
         self.logger.propagate = True
         log_format = logging.Formatter(logging_constants.LOGFORMAT)
         self.logger.setLevel(logging.DEBUG)
-        self.logger.addHandler(self.newHandler(logging_constants.DEBUGLOG, logging.DEBUG, log_format, logging_constants))
-        self.logger.addHandler(self.newHandler(logging_constants.ERRORLOG, logging.ERROR, log_format, logging_constants))
-        self.logger.addHandler(self.newHandler(logging_constants.INFOLOG, logging.INFO, log_format, logging_constants))
-        self.logger.addHandler(logging.StreamHandler(sys.stdout))
+        if MainConfig.Docker:
+            stdout_handler = logging.StreamHandler(sys.stdout)
+            stdout_handler.setLevel(logging.INFO)
+            self.logger.addHandler(stdout_handler)
+
+            stderr_handler = logging.StreamHandler(sys.stderr)
+            stderr_handler.setLevel(logging.ERROR)
+            self.logger.addHandler(stderr_handler)
+        else:
+            self.logger.addHandler(self.newHandler(logging_constants.DEBUGLOG, logging.DEBUG, log_format, logging_constants))
+            self.logger.addHandler(self.newHandler(logging_constants.ERRORLOG, logging.ERROR, log_format, logging_constants))
+            self.logger.addHandler(self.newHandler(logging_constants.INFOLOG, logging.INFO, log_format, logging_constants))
+            self.logger.addHandler(logging.StreamHandler(sys.stdout))
         """console = logging.StreamHandler(sys.stdout)
         console.setFormatter(log_format)
         console.setLevel(logging.DEBUG)

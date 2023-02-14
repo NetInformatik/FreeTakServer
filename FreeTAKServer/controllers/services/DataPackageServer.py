@@ -66,13 +66,13 @@ if not os.path.exists(MainConfig.ExCheckFilePath):
     os.makedirs(log.LOGDIRECTORY)"""
 app.logger.removeHandler(default_handler)  # pylint: disable=no-member; member does exist
 formatter = logging.Formatter(log.LOGFORMAT)
-file_handler = RotatingFileHandler(
-    log.HTTPLOG,
-    maxBytes=log.MAXFILESIZE,
-    backupCount=log.BACKUPCOUNT
-)
-file_handler.setFormatter(formatter)
-file_handler.setLevel(logging.ERROR)
+# file_handler = RotatingFileHandler(
+#     log.HTTPLOG,
+#     maxBytes=log.MAXFILESIZE,
+#     backupCount=log.BACKUPCOUNT
+# )
+# file_handler.setFormatter(formatter)
+# file_handler.setLevel(logging.ERROR)
 
 
 # app.logger.addHandler(file_handler)

@@ -306,4 +306,6 @@ class MainConfig:
     # location to backup client packages
     clientPackages = str(Path(fr'{MainPath}/certs/ClientPackages'))
 
+    Docker = bool(os.environ.get("FTS_DOCKER", False))
+
     first_start = False

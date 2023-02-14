@@ -1,6 +1,7 @@
 import os
 from FreeTAKServer.controllers.configuration.DataPackageServerConstants import DataPackageServerConstants
 from FreeTAKServer.controllers.configuration.LoggingConstants import LoggingConstants
+from FreeTAKServer.controllers.configuration.MainConfig import MainConfig
 from pathlib import PurePath
 class CreateStartupFilesController:
     def __init__(self):
@@ -13,6 +14,10 @@ class CreateStartupFilesController:
             os.mkdir(self.dp_directory)
         except:
             pass
+        
+        if MainConfig.Docker: # don't use log files for docker
+            return
+        
         try:
             os.mkdir(self.logs_directory)
         except:

@@ -1,20 +1,23 @@
 FROM python:3.8
 
-# don't use root, let's not have FTS be used as a priv escalation in the wild
-RUN groupadd -r freetak && useradd -m -r -g freetak freetak
-RUN mkdir /opt/FTSData ; chown -R freetak:freetak /opt/FTSData 
-USER freetak 
-
-# This needs the trailing slash
-ENV FTS_DATA_PATH="/opt/FTSData/"
+ENV FTS_MAINPATH="/data"
+ENV FTS_DOCKER=True
+ENV FTS_CONFIG_PATH="/data/FTSConfig.yaml"
+ENV FTS_DB_PATH="/data/FTSDataBase.db"
 
 WORKDIR /FreeTAKServer
 COPY . .
-COPY --chown=freetak:freetak ./FreeTAKServer /FreeTAKServer
+COPY ./FreeTAKServer /FreeTAKServer
 
-RUN pip3 install flask lxml flask_login
+#RUN pip3 install flask lxml flask_login
 
 RUN pip3 install -e /FreeTAKServer
+
+# don't use root, let's not have FTS be used as a priv escalation in the wild
+RUN groupadd -r freetak && useradd -m -r -g freetak freetak
+RUN mkdir /data ; chown -R freetak:freetak /data 
+RUN chown -R freetak:freetak /FreeTAKServer
+USER freetak 
 
 # DataPackagePort
 EXPOSE 8080
