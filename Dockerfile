@@ -14,10 +14,12 @@ COPY ./FreeTAKServer /FreeTAKServer
 RUN pip3 install -e /FreeTAKServer
 
 # don't use root, let's not have FTS be used as a priv escalation in the wild
-# RUN groupadd -r freetak && useradd -m -r -g freetak freetak
-# RUN mkdir /data ; chown -R freetak:freetak /data 
-# RUN chown -R freetak:freetak /FreeTAKServer
-# USER freetak 
+RUN groupadd -r freetak && useradd -m -r -g freetak freetak
+RUN mkdir /data ; chown -R freetak:freetak /data 
+RUN chown -R freetak:freetak /FreeTAKServer
+USER freetak
+
+VOLUME [ "/data" ]
 
 # DataPackagePort
 EXPOSE 8080
