@@ -41,6 +41,7 @@ setup(
         'lxml==4.6.5',
         'MarkupSafe==2.0.1',
         'monotonic==1.6',
+        'mysql-connector-python==8.0.32',
         'pathlib==1.0.1',
         'protobuf==3.14.0',
         'psutil==5.9.0',

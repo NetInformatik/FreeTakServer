@@ -5,5 +5,5 @@ class DatabaseConfiguration:
     if MainConfig.DataBaseType == "SQLite":
         DataBaseType = str('sqlite:///')
     elif MainConfig.DataBaseType == "MySQL":
-        DataBaseType = str('mysql://')
+        DataBaseType = str('mysql+mysqlconnector://')
     DataBaseConnectionString = str(DataBaseType+DataBasePath)
